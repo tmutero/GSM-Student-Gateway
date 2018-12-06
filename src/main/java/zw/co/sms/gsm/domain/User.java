@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -16,6 +17,9 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    private BigDecimal balance;
+
     private String firstName;
     private String lastName;
     private String email;
@@ -32,6 +36,20 @@ public class User implements Serializable {
     private Faculty faculty;
     @OneToMany(mappedBy = "user")
     private List<Course> courses;
+
+    @ManyToOne
+    @JoinColumn(name = "level_id")
+    private Level level;
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+
+
 
 
     public User( String password, String email){

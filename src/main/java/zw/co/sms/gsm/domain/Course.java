@@ -14,6 +14,16 @@ public class Course extends BaseEntityId {
     private String courseCode;
     private Department department;
     private User user;
+    private SmsRegistration smsRegistration;
+
+    @ManyToOne
+    public SmsRegistration getSmsRegistration() {
+        return smsRegistration;
+    }
+
+    public void setSmsRegistration(SmsRegistration smsRegistration) {
+        this.smsRegistration = smsRegistration;
+    }
 
     @ManyToOne
     public User getUser() {
@@ -46,5 +56,15 @@ public class Course extends BaseEntityId {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "name='" + name + '\'' +
+                ", courseCode='" + courseCode + '\'' +
+                ", department=" + department +
+                ", user=" + user +
+                '}';
     }
 }

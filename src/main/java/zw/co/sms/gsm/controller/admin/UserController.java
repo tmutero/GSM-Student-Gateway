@@ -39,6 +39,8 @@ public class UserController {
     private CourseRepository courseRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private LevelRepository levelRepository;
 
     @RequestMapping(value = {"/add", "/add/{id}"}, method = RequestMethod.GET)
     public String add(@RequestParam(required = false) Long id, Model model) {
@@ -48,6 +50,7 @@ public class UserController {
         model.addAttribute("departments", departmentRepository.findAll());
         model.addAttribute("faculties", facultyRepository.findAll());
         model.addAttribute("courses", courseRepository.findAll());
+        model.addAttribute("levels", levelRepository.findAll());
         return "admin/user/add";
     }
 
@@ -66,6 +69,7 @@ public class UserController {
             model.addAttribute("departments", departmentRepository.findAll());
             model.addAttribute("faculties", facultyRepository.findAll());
             model.addAttribute("courses", courseRepository.findAll());
+            model.addAttribute("levels", levelRepository.findAll());
             return "admin/user/add";
         }
         user.setFirstName(userDto.getFirstName());
@@ -78,11 +82,12 @@ public class UserController {
         user.setCourses(userDto.getCourses());
         user.setApproved(true);
         Set<Role> roleSet = new HashSet<>();
-        String roleName = "LECTURER";
+        String roleName = "STUDENT";
         Role role = roleRepository.findRoleByName(roleName);
         roleSet.add(role);
         user.setRoleName(roleName);
         user.setRoles(roleSet);
+        user.setLevel(userDto.getLevel());
         userRepository.save(user);
         return "redirect:/admin/user/list";
     }
@@ -97,6 +102,7 @@ public class UserController {
     @RequestMapping("/update/{id}")
     public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("user", userRepository.findById(id).get());
+        model.addAttribute("levels", levelRepository.findAll());
         return "admin/user/edit";
     }
 

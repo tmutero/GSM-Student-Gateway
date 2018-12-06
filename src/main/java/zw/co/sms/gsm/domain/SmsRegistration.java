@@ -1,30 +1,32 @@
 package zw.co.sms.gsm.domain;
 
-import zw.co.sms.gsm.constraint.FieldMatch;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by zinzombe on Oct
  */
-@Entity
-public class Level extends BaseEntityId {
+@Entity(name = "sms_registration")
+public class SmsRegistration extends BaseEntityId {
 
     private String name;
-    private List<Course> courses;
+    private User user;
 
 
-    @OneToMany
-    public List<Course> getCourses() {
-        return courses;
+
+    @ManyToOne
+    public User getUser() {
+        return user;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setUser(User user) {
+        this.user = user;
     }
+
 
     public String getName() {
         return name;

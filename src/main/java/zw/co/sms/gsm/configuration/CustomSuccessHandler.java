@@ -1,4 +1,4 @@
-package zw.co.questionPaper.AutomaticGeneration.configuration;
+package zw.co.sms.gsm.configuration;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

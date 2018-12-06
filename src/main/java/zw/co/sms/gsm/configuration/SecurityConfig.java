@@ -1,4 +1,4 @@
-package zw.co.questionPaper.AutomaticGeneration.configuration;
+package zw.co.sms.gsm.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import zw.co.sms.gsm.service.UserService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    zw.co.questionPaper.AutomaticGeneration.configuration.CustomSuccessHandler customSuccessHandler;
+  CustomSuccessHandler customSuccessHandler;
     @Autowired
     private UserService userService;
     private String[] AUTH_WHITELIST = {"/resources/**",

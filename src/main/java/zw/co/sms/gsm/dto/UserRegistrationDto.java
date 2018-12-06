@@ -3,10 +3,7 @@ package zw.co.sms.gsm.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import zw.co.sms.gsm.constraint.FieldMatch;
-import zw.co.sms.gsm.domain.Course;
-import zw.co.sms.gsm.domain.Department;
-import zw.co.sms.gsm.domain.Faculty;
-import zw.co.sms.gsm.domain.Role;
+import zw.co.sms.gsm.domain.*;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,6 +27,8 @@ public class UserRegistrationDto {
     private Department department;
 
     private Faculty faculty;
+
+    private Level level;
 
     private List<Course> courses;
 
@@ -152,5 +151,13 @@ public class UserRegistrationDto {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 }

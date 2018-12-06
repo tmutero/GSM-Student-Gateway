@@ -33,16 +33,16 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
-                                <label>Select Lecturer</label>
-                                <select class="form-control" required="required" th:field="*{user}">
-                                    <option value="">----Select----</option>
-                                    <option th:each="user : ${users}"
-                                            th:value="${{user.id}}"
-                                            th:text="${user.lastName}">
-                                    </option>
-                                </select>
-                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label>Select Lecturer</label>-->
+                                <!--<select class="form-control" required="required" th:field="*{user}">-->
+                                    <!--<option value="">&#45;&#45;&#45;&#45;Select&#45;&#45;&#45;&#45;</option>-->
+                                    <!--<option th:each="user : ${users}"-->
+                                            <!--th:value="${{user.id}}"-->
+                                            <!--th:text="${user.lastName}">-->
+                                    <!--</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
 
 
                             <div class="form-group"><label for="name" class=" form-control-label">Course
