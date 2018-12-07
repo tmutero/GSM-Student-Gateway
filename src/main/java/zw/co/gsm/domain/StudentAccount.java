@@ -12,14 +12,14 @@ import java.math.BigDecimal;
 public class StudentAccount extends BaseEntityId
 
 {
-    private BigDecimal amount;
+    private Double amount;
     private Student student;
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

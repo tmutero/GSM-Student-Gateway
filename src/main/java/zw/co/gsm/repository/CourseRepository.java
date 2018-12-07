@@ -13,5 +13,8 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    List<Course> findAllByDegreeAndLevel(Degree degree, Level level);
+    List<String> findAllByDegree(Degree degree);
+
+    Course findAllByCourseCode(String courseCode);
+
 }

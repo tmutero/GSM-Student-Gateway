@@ -7,4 +7,6 @@ import zw.co.gsm.domain.Student;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
+
+    Student findAllByRegNumber(String regNumber);
 }

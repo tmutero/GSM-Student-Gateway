@@ -54,4 +54,14 @@ public class Course extends BaseEntityId {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "name='" + name + '\'' +
+                ", courseCode='" + courseCode + '\'' +
+                ", degree=" + degree +
+                ", level=" + level +
+                '}';
+    }
 }

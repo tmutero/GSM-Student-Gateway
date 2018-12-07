@@ -9,6 +9,7 @@ public class Registration extends BaseEntityId{
     private Course course;
     private Student student;
     private String examMark;
+    
 
     public String getExamMark() {
         return examMark;
@@ -33,5 +34,14 @@ public class Registration extends BaseEntityId{
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    @Override
+    public String toString() {
+        return "Registration{" +
+                "course=" + course +
+                ", student=" + student +
+                ", examMark='" + examMark + '\'' +
+                '}';
     }
 }

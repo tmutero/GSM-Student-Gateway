@@ -14,6 +14,8 @@ import zw.co.gsm.domain.Level;
 import zw.co.gsm.domain.Student;
 import zw.co.gsm.dto.UserRegistrationDto;
 import zw.co.gsm.repository.DegreeRepository;
+import zw.co.gsm.repository.RegistrationRepository;
+import zw.co.gsm.repository.StudentAccountRepository;
 import zw.co.gsm.repository.StudentRepository;
 
 import java.util.Collections;
@@ -28,6 +30,10 @@ public class StudentController {
     private StudentRepository studentRepository;
     @Autowired
     private DegreeRepository degreeRepository;
+    @Autowired
+    private RegistrationRepository registrationRepository;
+    @Autowired
+    private StudentAccountRepository studentAccountRepository;
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -78,6 +84,9 @@ public class StudentController {
             final Student student = studentOptional.get();
             model.addAttribute("title", "Student Detail");
             model.addAttribute("student",student);
+            model.addAttribute("registration",registrationRepository.findFirstByStudent(student));
+            model.addAttribute("account",studentAccountRepository.findByStudent(student));
+
 
         }
 

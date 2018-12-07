@@ -85,80 +85,68 @@
                                     </div>
 
                                 </div>
+                                <div class="tab-pane fade" id="account" role="tabpanel"
+                                     aria-labelledby="home-tab">
+                                    <div class="row">
+                                        <label class="col-sm-2">First Name</label>
+                                        <div class="col-sm-10" th:text="${student.firstName}"></div>
+                                    </div>
 
-                                <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+                                    <div class="row">
+                                        <label class="col-sm-2">Last Name</label>
+                                        <div class="col-sm-10" th:text="${student.lastName}"></div>
+                                    </div>
 
-
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
-
-                                            <th>Subject name</th>
-                                            <th>Mark Obtained</th>
-                                            <th>Grade Result</th>
-
-                                        </tr>
-                                        </thead>
-
-                                        <tr th:each=" grade: ${grades}">
-                                            <td th:text="${grade.subject?.name}"></td>
-                                            <td th:text="${grade.mark}"></td>
-                                            <td th:text="${grade.getMarkPercentage()}"></td>
-
-
-                                            <td class='text-center'><a href='#' th:id="${grade.id}"
-                                                                       class="aprove"><span
-                                                    class='glyphicon glyphicon-user'
-                                                    aria-hidden='true'>Update Mark</span></a>
-                                            </td>
-
-                                            <td>
-                                                <a class="btn btn-success btn-danger"
-                                                   href="">Delete</a>
-                                            </td>
-
-
-                                        </tr>
-
-                                    </table>
-
+                                    <div class="row">
+                                        <label class="col-sm-2">Gender</label>
+                                        <div class="col-sm-10" th:text="${student.gender.name}"></div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2">Date of Birth</label>
+                                        <div class="col-sm-10" th:text="${student.dateOfBirth}"></div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2">Age: </label>
+                                        <div class="col-sm-10" th:text="${student.age}"></div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2">Program: </label>
+                                        <div class="col-sm-10" th:text="${student.degree.name}"></div>
+                                    </div>
 
                                 </div>
-                                <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
 
-                                    <button type="button" class="btn btn-secondary mb-1" data-toggle="modal"
-                                            data-target="#contactModal">
-                                        New Amount
-                                    </button>
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
+                                <div class="tab-pane fade" id="courses" role="tabpanel"
+                                     aria-labelledby="home-tab">
+                                    <div class="row">
+                                        <label class="col-sm-2">First Name</label>
+                                        <div class="col-sm-10" th:text="${student.firstName}"></div>
+                                    </div>
 
-                                            <th>Amount Paid</th>
-                                            <th>Payment Type</th>
-                                            <th>Date Created</th>
-                                            ]
-                                            <th></th>
-                                        </tr>
-                                        </thead>
+                                    <div class="row">
+                                        <label class="col-sm-2">Last Name</label>
+                                        <div class="col-sm-10" th:text="${student.lastName}"></div>
+                                    </div>
 
-                                        <!--<tr th:each=" address: ${addressList}">-->
-                                        <!--<td th:text="${address.addressLine1}"></td>-->
-                                        <!--<td th:text="${address.addressLine2}"></td>-->
-                                        <!--<td th:text="${address.addressType}"></td>-->
-                                        <!--<td th:text="${address.contact}"></td>-->
-                                        <!--<td>-->
-                                        <!--</td>-->
-                                        <!--<td>-->
-                                        <!--<a class="btn btn-success btn-danger"-->
-                                        <!--href="">Delete</a>-->
-                                        <!--</td>-->
-
-                                        <!--</tr>-->
-
-                                    </table>
+                                    <div class="row">
+                                        <label class="col-sm-2">Gender</label>
+                                        <div class="col-sm-10" th:text="${student.gender.name}"></div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2">Date of Birth</label>
+                                        <div class="col-sm-10" th:text="${student.dateOfBirth}"></div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2">Age: </label>
+                                        <div class="col-sm-10" th:text="${student.age}"></div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2">Program: </label>
+                                        <div class="col-sm-10" th:text="${student.degree.name}"></div>
+                                    </div>
 
                                 </div>
+
 
                             </div>
                         </div>
