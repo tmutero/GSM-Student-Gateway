@@ -27,15 +27,25 @@
     </div>
 </nav>
 
+<style>
+    .navbar-inverse {
+        background-color: #5349b1;
+        border-color: #080808;
+    }
+</style>
+
 <br>
 <br>
 
 <div class="container">
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <h1>Login page</h1>
+    <div class="row"  style="margin-top:20px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+
             <form th:action="@{/login}" method="post">
+
+                <fieldset>
+                    <h1>Please Sign In</h1>
                 <div th:if="${param.error}">
                     <div class="alert alert-danger">Invalid username or
                         password.
@@ -65,6 +75,11 @@
                         </div>
                     </div>
                 </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                    </div>
+
+        </fieldset>
             </form>
         </div>
     </div>
