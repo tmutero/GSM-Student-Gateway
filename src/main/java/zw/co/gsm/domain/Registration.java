@@ -9,7 +9,15 @@ public class Registration extends BaseEntityId{
     private Course course;
     private Student student;
     private String examMark;
-    
+    private String phoneNumber;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getExamMark() {
         return examMark;

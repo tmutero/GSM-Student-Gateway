@@ -132,6 +132,8 @@ public class SmsEndPoint {
                                 Registration registration = new Registration();
                                 registration.setCourse(course);
                                 registration.setStudent(student);
+                                registration.setPhoneNumber(phone_num);
+                                registration.setActive(true);
 
                                 registrationRepository.save(registration);
 
@@ -154,31 +156,59 @@ public class SmsEndPoint {
 
                 if (Objects.equals(purpose, "240")) {
                     String studentReg = null;
-
-
                     String regNumber = output[1];
                     String courseCode = output[2];
-                //    String degreeCode = output[3];
+                    //    String degreeCode = output[3];
 
 
                     Student student = studentRepository.findAllByRegNumber(regNumber);
                     List<StudentAccount> studentAccount = studentAccountRepository.findStudentAccountByDateCreated(student);
                     double amount = studentAccount.get(0).getAmount();
-                    System.out.println(
-                            "--------------------------------------------------"+phone_num
-                    );
                     if (amount > 250) {
 
-                         List<Registration> registration= registrationRepository.findFirstByStudent(student);
-                         ArrayList<String> s=new ArrayList<>();
-                         for (Registration r: registration){
-                             s.add(r.getCourse().getName());
-                         }
-                         String sendD=""+s+"";
-                         smsSend(sendD,phone_num);
+                        List<Registration> registration = registrationRepository.findFirstByStudent(student);
+                        ArrayList<String> s = new ArrayList<>();
+                        for (Registration r : registration) {
+                            s.add(r.getCourse().getName());
+                        }
+                        String sendD = "" + s + "";
+                        smsSend(sendD, phone_num);
                     }
 
                 }
+//De-registration Part e.g 245#B1440945#CS101#password
+                if (Objects.equals(purpose, "245")) {
+                    String studentReg = null;
+                    String regNumber = output[1];
+                    String courseCode = output[2];
+                    String password = output[3];
+                    Course course = courseRepository.findAllByCourseCode(courseCode);
+                    Student student = studentRepository.findAllByRegNumber(regNumber);
+                    if (!Objects.equals(student.getPassword(), password)) {
+                        studentReg = "Password+is_incorrect+please+enter+valid+one";
+                        smsSend(studentReg, phone_num);
+                    } else {
+                        List<Registration> checkRegistration = registrationRepository.findAllByStudentAndCourse(student, course);
+                        if (checkRegistration.size() != 0) {
+                            Registration registration = new Registration();
+                            registration.setCourse(course);
+                            registration.setStudent(student);
+                            registration.setPhoneNumber(phone_num);
+                            registration.setActive(false);
+                            Date newDate = new Date();
+                            registration.setDateModified(newDate);
+                            registrationRepository.save(registration);
+                            studentReg = "Deregistration+of" + courseCode + "was+successfully+done.+Send+Help+for+more+option";
+                            smsSend(studentReg, phone_num);
+                        } else {
+                            studentReg = courseCode + "is+already+de-registered+done.+Send+Help+for+more+option";
+                            smsSend(studentReg, phone_num);
+                        }
+
+                    }
+                }
+            } else {
+                System.out.println("server not reachable");
             }
 
         } catch (IOException e) {
