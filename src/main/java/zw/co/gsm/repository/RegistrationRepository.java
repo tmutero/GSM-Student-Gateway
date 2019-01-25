@@ -13,10 +13,12 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
 
     List<Registration> findFirstByStudent(Student student);
 
+    List<Registration> findFirstByStudentAndActive(Student student,Boolean active);
+
     List<Registration> findAllByStudentAndCourse(Student student, Course course);
 
-    @Query("SELECT p FROM  Registration p WHERE p.active=false")
-    List<Registration> findAllByActive();
+
+    List<Registration> findAllByActive(Boolean active);
 
 
 

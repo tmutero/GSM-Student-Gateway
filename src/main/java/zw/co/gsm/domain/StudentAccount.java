@@ -35,8 +35,6 @@ public class StudentAccount extends BaseEntityId
         this.student = student;
     }
 
-
-
     @Enumerated
     private Level level;
 
@@ -60,5 +58,13 @@ public class StudentAccount extends BaseEntityId
         this.paymentType = paymentType;
     }
 
-
+    @Override
+    public String toString() {
+        return "StudentAccount{" +
+                "amount=" + amount +
+                ", student=" + student +
+                ", level=" + level +
+                ", paymentType=" + paymentType +
+                '}';
+    }
 }

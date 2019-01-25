@@ -8,15 +8,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import zw.co.gsm.domain.Course;
-import zw.co.gsm.domain.Gender;
-import zw.co.gsm.domain.Level;
-import zw.co.gsm.domain.Student;
+import zw.co.gsm.domain.*;
 import zw.co.gsm.dto.UserRegistrationDto;
-import zw.co.gsm.repository.DegreeRepository;
-import zw.co.gsm.repository.RegistrationRepository;
-import zw.co.gsm.repository.StudentAccountRepository;
-import zw.co.gsm.repository.StudentRepository;
+import zw.co.gsm.repository.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +28,8 @@ public class StudentController {
     private RegistrationRepository registrationRepository;
     @Autowired
     private StudentAccountRepository studentAccountRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -68,6 +64,10 @@ public class StudentController {
         }
         status.setComplete();
         studentRepository.save(student);
+        StudentAccount studentAccount =new StudentAccount();
+        studentAccount.setStudent(student);
+        studentAccount.setAmount(600.0);
+        studentAccountRepository.save(studentAccount);
         return "redirect:/admin/student/list";
     }
 
@@ -84,10 +84,15 @@ public class StudentController {
             final Student student = studentOptional.get();
             model.addAttribute("title", "Student Detail");
             model.addAttribute("student",student);
-            model.addAttribute("registration",registrationRepository.findFirstByStudent(student));
+            model.addAttribute("studentAccount", new StudentAccount());
+
+
+            model.addAttribute("paymentType", PaymentType.values());
+
+            List<Registration> registrations=registrationRepository.findFirstByStudentAndActive(student,true);
+
+            model.addAttribute("registration",registrations);
             model.addAttribute("account",studentAccountRepository.findByStudent(student));
-
-
         }
 
         return "admin/student/view";

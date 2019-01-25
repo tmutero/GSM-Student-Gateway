@@ -23,7 +23,7 @@ public abstract class BaseEntityId implements Serializable {
     private Date dateModified;
     private String createdBy;
     private String lastModifiedBy;
-    private Boolean active = Boolean.TRUE;
+    private Boolean active = Boolean.FALSE;
 
     public BaseEntityId(Long id) {
         this.id = id;

@@ -28,14 +28,14 @@ public class ReportController {
 
     @RequestMapping(value = "/activeReg", method = RequestMethod.GET)
     public String activeReg(Model model) {
-        List<Registration> registrations = registrationRepository.findAll();
+        List<Registration> registrations = registrationRepository.findAllByActive(true);
         model.addAttribute("registrations", registrations);
         return "admin/report/activeReg";
     }
 
     @RequestMapping(value = "/notActive", method = RequestMethod.GET)
     public  String notActive(Model model){
-        List<Registration> registrations = registrationRepository.findAllByActive();
+        List<Registration> registrations = registrationRepository.findAllByActive(false);
         model.addAttribute("registrations", registrations);
         return "admin/report/notActive";
     }

@@ -72,7 +72,7 @@ public class SmsEndPoint {
     private RegistrationRepository registrationRepository;
 
     String messageOutput = null;
-    private String url = "http://192.168.43.1:1688/services/api/";
+    private String url = "http://192.168.43.253:1688/services/api/";
 
 
     @Scheduled(cron = "0/05 * * * * ?")
@@ -97,60 +97,84 @@ public class SmsEndPoint {
 
                 String[] output = message.split(SPECIAL_CHARS_REGEX2);
                 String purpose = output[0];
-
+                System.out.println("-----------------------------------------------"+message+"--==============="+phone_num);
                 if (Objects.equals(purpose, "230")) {
-
                     String regNumber = output[1];
+                    String password = output[2];
                     Student student = studentRepository.findAllByRegNumber(regNumber);
-                    Degree degree = degreeRepository.findAllByDegreeCode(student.getDegree().getDegreeCode());
-                    List<String> course = courseRepository.findAllByDegree(degree);
-                    String msgtostudent = "Your+Level+is" + "+" + student.getLevel().getName() + "Course+to+register+" + "-" + course.toString();
-                    smsSend(msgtostudent, phone_num);
+
+                    if (!Objects.equals(student.getPassword(), password)) {
+                        String messageTo = "Password+is_incorrect+please+enter+valid+one";
+                        smsSend(messageTo, phone_num);
+                    }else {
+
+
+                        Degree degree = degreeRepository.findAllByDegreeCode(student.getDegree().getDegreeCode().toUpperCase());
+                        List<String> course = courseRepository.findAllByDegree(degree);
+
+                        String msgtostudent = "Your+Level+is" + "+" + student.getLevel().getName() + "Course+to+register+" + "-" + course.toString();
+
+
+                        smsSend(msgtostudent, phone_num);
+                    }
+
                 }
-                //Course Registration e.g 235#B1440945#CS102#BScCOMP
+
+                //Course Registration e.g 235#B1440945#CS102#Password
                 if (Objects.equals(purpose, "235")) {
                     String studentReg = null;
                     String regNumber = output[1];
                     String courseCode = output[2];
-                    String degreeCode = output[3];
+                    String password = output[3];
                     Course course = courseRepository.findAllByCourseCode(courseCode);
                     Student student = studentRepository.findAllByRegNumber(regNumber);
-                    Degree degree = degreeRepository.findAllByDegreeCode(degreeCode);
 
                     //Check Student Account if balance is greater than 300
-                    List<StudentAccount> studentAccount = studentAccountRepository.findStudentAccountByDateCreated(student);
-                    double amount = studentAccount.get(0).getAmount();
-                    List<Registration> checkRegistration = registrationRepository.findAllByStudentAndCourse(student, course);
 
-                    if (student == null || course == null) {
-                        studentReg = "Incorrect+Registration+Number+Or+Course+Code+please+try+again.";
-                        smsSend(studentReg, phone_num);
-                    } else {
-                        if (checkRegistration.size() == 0) {
-                            if (amount > 250) {
 
-                                Registration registration = new Registration();
-                                registration.setCourse(course);
-                                registration.setStudent(student);
-                                registration.setPhoneNumber(phone_num);
-                                registration.setActive(true);
+                    if (!Objects.equals(student.getPassword(), password)) {
+                        String messageTo = "Password+is_incorrect+please+enter+valid+one";
+                        smsSend(messageTo, phone_num);
+                    }else {
+                        List<Registration> checkRegistration = registrationRepository.findAllByStudentAndCourse(student, course);
 
-                                registrationRepository.save(registration);
 
-                                studentReg = "Your+Registration+was+successfully+created.+Send+Help+for+more+option";
+                        List<StudentAccount> studentAccount = studentAccountRepository.findStudentAccountByDateCreated(student);
+                        double amount = studentAccount.get(0).getAmount();
 
-                                smsSend(studentReg, phone_num);
+                        if (student == null) {
+                            studentReg = "Incorrect+Registration+Number+Or+Course+Code+please+try+again.";
+                            smsSend(studentReg, phone_num);
+                        } else {
+                            if (checkRegistration.size() == 0) {
+                                if (amount > 250) {
+
+                                    Registration registration = new Registration();
+                                    registration.setCourse(course);
+                                    registration.setStudent(student);
+                                    registration.setPhoneNumber(phone_num);
+                                    registration.setActive(true);
+
+                                    registrationRepository.save(registration);
+
+                                    studentReg = "Your+Registration+was+successfully+created.+Send+Help+for+more+option";
+
+                                    smsSend(studentReg, phone_num);
+                                } else {
+                                    studentReg = "Your+Registration+Have+Failed.+Your+Balance+is+" + "$" + amount + "+" + "instead+of+minimum+of+$250+required";
+                                    smsSend(studentReg, phone_num);
+                                }
+
                             } else {
-                                studentReg = "Your+Registration+Have+Failed.+Your+Balance+is+" + "$" + amount + "+" + "instead+of+minimum+of+$250+required";
+                                studentReg = courseCode + "+" + "has+already+registered+only+de-registration+allowed";
                                 smsSend(studentReg, phone_num);
                             }
 
-                        } else {
-                            studentReg = courseCode + "+" + "has+already+registered+on+only+de-registration+allowed";
-                            smsSend(studentReg, phone_num);
                         }
 
                     }
+
+
                 }
 //Show result e.g 240#B1440945#BScCOMP
 
@@ -159,7 +183,6 @@ public class SmsEndPoint {
                     String regNumber = output[1];
                     String courseCode = output[2];
                     //    String degreeCode = output[3];
-
 
                     Student student = studentRepository.findAllByRegNumber(regNumber);
                     List<StudentAccount> studentAccount = studentAccountRepository.findStudentAccountByDateCreated(student);
@@ -171,8 +194,8 @@ public class SmsEndPoint {
                         for (Registration r : registration) {
                             s.add(r.getCourse().getName());
                         }
-                        String sendD = "" + s + "";
-                        smsSend(sendD, phone_num);
+                        System.out.println("++++++++++++++++++++++++++++++++++++++"+registration);
+                       // smsSend(sendD, phone_num);
                     }
 
                 }
@@ -191,9 +214,7 @@ public class SmsEndPoint {
                         List<Registration> checkRegistration = registrationRepository.findAllByStudentAndCourse(student, course);
                         if (checkRegistration.size() != 0) {
                             Registration registration = new Registration();
-                            registration.setCourse(course);
-                            registration.setStudent(student);
-                            registration.setPhoneNumber(phone_num);
+
                             registration.setActive(false);
                             Date newDate = new Date();
                             registration.setDateModified(newDate);
@@ -207,9 +228,16 @@ public class SmsEndPoint {
 
                     }
                 }
+                if (Objects.equals(purpose, "Help")) {
+                    String mssg="Please+follow+the+codes+230+235+240+245+to+register";
+
+
+                    smsSend(mssg,phone_num);
+                }
             } else {
                 System.out.println("server not reachable");
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -220,7 +248,7 @@ public class SmsEndPoint {
 
     public void smsSend(String msgtostudent, String phone_num) throws IOException {
 
-        URL obj = new URL("http://192.168.43.1:1688/services/api/messaging/?To=" + phone_num + "&Message=" + msgtostudent);
+        URL obj = new URL("http://192.168.43.253:1688/services/api/messaging/?To=" + "0774365199" + "&Message=" + msgtostudent);
         HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
         postConnection.setRequestMethod("POST");
         int responseCode = postConnection.getResponseCode();
